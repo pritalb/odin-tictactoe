@@ -20,13 +20,22 @@ function playGame() {
             return availableTiles;
         }
 
+        const checkLegalMove = (tileID) => {
+            return availableTiles.includes(tileID);
+        }
+
         const markTile = (tileID, mark) => {
             let row = Number(tileID[0]);
             let col = Number(tileID[1]);
+            let isMoveLegal = checkLegalMove(tileID);
             console.log(row, col);
 
-            gameboard[row][col] = mark;
-            availableTiles.splice((row * 3) + col, 1);
+            if (isMoveLegal) {
+                gameboard[row][col] = mark;
+                availableTiles.splice((row * 3) + col, 1);
+            } else {
+                console.log('illegal move');
+            }
         }
 
         return {getGameboard, getAvailableTiles, markTile}
@@ -36,12 +45,12 @@ function playGame() {
         return {mark};
     }
 
-    console.log("yo!");
-
     console.log(gameBoard.getGameboard());
     console.log(gameBoard.getAvailableTiles());
 
-    gameBoard.markTile('11', 'X')
+    gameBoard.markTile('11', 'X');
+    gameBoard.markTile('01', '0');
+    gameBoard.markTile('01', 'X');
 
     console.log(gameBoard.getGameboard());
     console.log(gameBoard.getAvailableTiles());
