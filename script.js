@@ -86,16 +86,44 @@ const Game = (() => {
         return {getGameboard, getAvailableTiles, checkDraw, checkWin, markTile}
     })();
 
-    const playerFactory = (mark, name, turn) => {
+    const playerFactory = (mark, name) => {
         const makeMove = (tileID) => {
             gameBoard.markTile(tileID, mark);
         }
-        return {mark, name, turn, makeMove};
+        return {mark, name, makeMove};
+    }
+
+    const playersFactory = (player1, player2) => {
+        return {
+            1: player1,
+            2: player2,
+        }
     }
 
     const play = () => {
+        let turn = 1;
+        let gameover = false;
+        const player1 = playerFactory("X", "John");
+        const player2 = playerFactory("O", "Doe");
+        const players = playersFactory(player1, player2);
+
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
+        while (!gameover) {
+
+            const currentPlayer = players[turn]
+            console.log(`It's ${currentPlayer.name}'s turn.`)
+            const tile = prompt("Enter the id of the tile to mark.");
+            currentPlayer.makeMove(tile);
+
+            console.log(gameBoard.getGameboard());
+            console.log(gameBoard.getAvailableTiles());
+            
+            let win = gameBoard.checkWin(currentPlayer.mark);
+            win && console.log(`${currentPlayer.name} won!`)
+            gameover = win | gameBoard.checkDraw();
+            turn = (turn === 1 ? 2 : 1);
+        }
     
         // console.log(gameBoard.checkDraw());
         // gameBoard.markTile('11', 'X');
