@@ -1,4 +1,4 @@
-function playGame() {
+const Game = (() => {
     const gameBoard = (() => {
         let gameboard = [
             ['', '', ''],
@@ -86,23 +86,30 @@ function playGame() {
         return {getGameboard, getAvailableTiles, checkDraw, checkWin, markTile}
     })();
 
-    const playerFactory = (mark) => {
-        return {mark};
+    const playerFactory = (mark, name, turn) => {
+        const makeMove = (tileID) => {
+            gameBoard.markTile(tileID, mark);
+        }
+        return {mark, name, turn, makeMove};
     }
 
-    console.log(gameBoard.getGameboard());
-    console.log(gameBoard.getAvailableTiles());
+    const play = () => {
+        console.log(gameBoard.getGameboard());
+        console.log(gameBoard.getAvailableTiles());
+    
+        // console.log(gameBoard.checkDraw());
+        // gameBoard.markTile('11', 'X');
+        // gameBoard.markTile('01', '0');
+        // gameBoard.markTile('01', 'X');
+    
+        // console.log(gameBoard.getGameboard());
+        // console.log(gameBoard.getAvailableTiles());
+    }
 
-    // console.log(gameBoard.checkDraw());
-    // gameBoard.markTile('11', 'X');
-    // gameBoard.markTile('01', '0');
-    // gameBoard.markTile('01', 'X');
-
-    // console.log(gameBoard.getGameboard());
-    // console.log(gameBoard.getAvailableTiles());
-}
+    return {play};
+})();
 
 function main() {
-    playGame();
+    Game.play();
 }
 main();
