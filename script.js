@@ -72,18 +72,14 @@ const Game = (() => {
         const markTile = (tileID, mark) => {
             let row = Number(tileID[0]);
             let col = Number(tileID[1]);
-            let isMoveLegal = checkLegalMove(tileID);
             console.log(row, col);
 
-            if (isMoveLegal) {
-                gameboard[row][col] = mark;
-                availableTiles.splice((row * 3) + col, 1);
-            } else {
-                console.log('illegal move');
-            }
+            gameboard[row][col] = mark;
+            let index = availableTiles.indexOf(tileID)
+            availableTiles.splice(index, 1);
         }
 
-        return {getGameboard, getAvailableTiles, checkDraw, checkWin, markTile}
+        return {getGameboard, getAvailableTiles, checkLegalMove, checkDraw, checkWin, markTile}
     })();
 
     const playerFactory = (mark, name) => {
@@ -100,11 +96,17 @@ const Game = (() => {
         }
     }
 
+    const get_random = (list) => {
+        return list[Math.floor((Math.random()*list.length))];
+    }
+
     const play = () => {
         let turn = 1;
         let gameover = false;
-        const player1 = playerFactory("X", "John");
-        const player2 = playerFactory("O", "Doe");
+        let player_name = prompt("Input your name");
+        let player_mark = prompt("choose a mark: X or O");
+        const player1 = playerFactory(player_mark, player_name);
+        const player2 = playerFactory((player_mark == "X" ? "O" : "X"), "Computer");
         const players = playersFactory(player1, player2);
 
         console.log(gameBoard.getGameboard());
@@ -112,9 +114,22 @@ const Game = (() => {
         while (!gameover) {
 
             const currentPlayer = players[turn]
-            console.log(`It's ${currentPlayer.name}'s turn.`)
-            const tile = prompt("Enter the id of the tile to mark.");
-            currentPlayer.makeMove(tile);
+            let tile = "";
+
+            if(currentPlayer.name == "Computer") {
+                let moves = gameBoard.getAvailableTiles()
+                tile = get_random(moves)
+            } else {
+                console.log(`It's ${currentPlayer.name}'s turn.`)
+                tile = prompt("Enter the id of the tile to mark.");
+            }
+            let isMoveLegal = gameBoard.checkLegalMove(tile)
+            if (isMoveLegal) {
+                currentPlayer.makeMove(tile);
+            } else {
+                console.log("Illegal Move!");
+                continue
+            }
 
             console.log(gameBoard.getGameboard());
             console.log(gameBoard.getAvailableTiles());
