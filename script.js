@@ -100,16 +100,34 @@ const Game = (() => {
         return list[Math.floor((Math.random()*list.length))];
     }
 
+    const initialize = () => {
+        const get_btn_input = (btn) => {
+            let input = btn.innerText;
+
+            document.querySelector('.mark-selection-chosen').innerText = input;
+        }
+
+        document.querySelectorAll('.mark-selection-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                get_btn_input(btn);
+            })
+        })
+
+        document.querySelector('.game-start-btn').addEventListener('click', () => {
+            play();
+        })
+    }
+
     const play = () => {
         let turn = 1;
         let gameover = false;
         let player_name = prompt("Input your name");
         
-        let player_mark = prompt("choose a mark: X or O");;
-        while (!(player_mark === "X" || player_mark === "O")) {
-            player_mark = prompt("choose a mark: X or O");
-            console.log(player_mark);
-        }
+        let player_mark = document.querySelector('.mark-selection-chosen').innerText;
+        // while (!(player_mark === "X" || player_mark === "O")) {
+        //     player_mark = prompt("choose a mark: X or O");
+        //     console.log(player_mark);
+        // }
         const player1 = playerFactory(player_mark, player_name);
         const player2 = playerFactory((player_mark == "X" ? "O" : "X"), "Computer");
         const players = playersFactory(player1, player2);
@@ -154,10 +172,11 @@ const Game = (() => {
         // console.log(gameBoard.getAvailableTiles());
     }
 
-    return {play};
+    return {initialize, play};
 })();
 
 function main() {
-    Game.play();
+    Game.initialize();
+    // Game.play();
 }
 main();
