@@ -1,4 +1,23 @@
 const Game = (() => {
+    let turn = 1;
+    let gameover = false;
+
+    const getTurn = () => {
+        return turn;
+    }
+
+    const updateTurn = () => {
+        turn = (turn === 1 ? 2 : 1);
+    }
+
+    const getGameOver = () => {
+        return gameover;
+    }
+
+    const setGameOver = (win) => {
+        gameover = win || gameBoard.checkDraw();
+    }
+
     const gameBoard = (() => {
         let gameboard = [
             ['', '', ''],
@@ -77,6 +96,7 @@ const Game = (() => {
             gameboard[row][col] = mark;
             let index = availableTiles.indexOf(tileID)
             availableTiles.splice(index, 1);
+            document.querySelector(`.tile-${tileID}`).innerText = mark;
         }
 
         return {getGameboard, getAvailableTiles, checkLegalMove, checkDraw, checkWin, markTile}
@@ -118,9 +138,36 @@ const Game = (() => {
         })
     }
 
+    const playTurn = (players) => {
+        let turn = getTurn()
+        const currentPlayer = players[turn]
+        let tile = "";
+
+        if(currentPlayer.name == "Computer") {
+            let moves = gameBoard.getAvailableTiles()
+            tile = get_random(moves)
+        } else {
+            console.log(`It's ${currentPlayer.name}'s turn.`)
+            tile = prompt("Enter the id of the tile to mark.");
+        }
+        let isMoveLegal = gameBoard.checkLegalMove(tile)
+        if (isMoveLegal) {
+            currentPlayer.makeMove(tile);
+        } else {
+            console.log("Illegal Move!");
+        }
+
+        console.log(gameBoard.getGameboard());
+        console.log(gameBoard.getAvailableTiles());
+        
+        let win = gameBoard.checkWin(currentPlayer.mark);
+        win && console.log(`${currentPlayer.name} won!`)
+        // gameover = win | gameBoard.checkDraw();
+        setGameOver(win);
+        updateTurn();
+    }
+
     const play = () => {
-        let turn = 1;
-        let gameover = false;
         let player_name = prompt("Input your name");
         
         let player_mark = document.querySelector('.mark-selection-chosen').innerText;
@@ -134,33 +181,9 @@ const Game = (() => {
 
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
-        while (!gameover) {
 
-            const currentPlayer = players[turn]
-            let tile = "";
-
-            if(currentPlayer.name == "Computer") {
-                let moves = gameBoard.getAvailableTiles()
-                tile = get_random(moves)
-            } else {
-                console.log(`It's ${currentPlayer.name}'s turn.`)
-                tile = prompt("Enter the id of the tile to mark.");
-            }
-            let isMoveLegal = gameBoard.checkLegalMove(tile)
-            if (isMoveLegal) {
-                currentPlayer.makeMove(tile);
-            } else {
-                console.log("Illegal Move!");
-                continue
-            }
-
-            console.log(gameBoard.getGameboard());
-            console.log(gameBoard.getAvailableTiles());
-            
-            let win = gameBoard.checkWin(currentPlayer.mark);
-            win && console.log(`${currentPlayer.name} won!`)
-            gameover = win | gameBoard.checkDraw();
-            turn = (turn === 1 ? 2 : 1);
+        while (!getGameOver(gameover)) {
+            playTurn(players)
         }
     
         // console.log(gameBoard.checkDraw());
