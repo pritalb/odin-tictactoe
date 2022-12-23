@@ -138,24 +138,53 @@ const Game = (() => {
         })
     }
 
-    const playTurn = (players) => {
+    // const playTurn = (players) => {
+    //     let turn = getTurn()
+    //     const currentPlayer = players[turn]
+    //     let tile = "";
+
+    //     if(currentPlayer.name == "Computer") {
+    //         let moves = gameBoard.getAvailableTiles()
+    //         tile = get_random(moves)
+    //     } else {
+    //         console.log(`It's ${currentPlayer.name}'s turn.`)
+    //         tile = prompt("Enter the id of the tile to mark.");
+    //     }
+    //     let isMoveLegal = gameBoard.checkLegalMove(tile)
+    //     if (isMoveLegal) {
+    //         currentPlayer.makeMove(tile);
+    //     } else {
+    //         console.log("Illegal Move!");
+    //     }
+
+    //     console.log(gameBoard.getGameboard());
+    //     console.log(gameBoard.getAvailableTiles());
+        
+    //     let win = gameBoard.checkWin(currentPlayer.mark);
+    //     win && console.log(`${currentPlayer.name} won!`)
+    //     // gameover = win | gameBoard.checkDraw();
+    //     setGameOver(win);
+    //     updateTurn();
+    // }
+
+    const playTurn = (tile) => {
         let turn = getTurn()
         const currentPlayer = players[turn]
-        let tile = "";
+        // let tile = "";
 
-        if(currentPlayer.name == "Computer") {
-            let moves = gameBoard.getAvailableTiles()
-            tile = get_random(moves)
-        } else {
-            console.log(`It's ${currentPlayer.name}'s turn.`)
-            tile = prompt("Enter the id of the tile to mark.");
-        }
-        let isMoveLegal = gameBoard.checkLegalMove(tile)
-        if (isMoveLegal) {
-            currentPlayer.makeMove(tile);
-        } else {
-            console.log("Illegal Move!");
-        }
+        // if(currentPlayer.name == "Computer") {
+        //     let moves = gameBoard.getAvailableTiles()
+        //     tile = get_random(moves)
+        // } else {
+        //     console.log(`It's ${currentPlayer.name}'s turn.`)
+        //     tile = prompt("Enter the id of the tile to mark.");
+        // }
+        // let isMoveLegal = gameBoard.checkLegalMove(tile)
+        // if (isMoveLegal) {
+        //     currentPlayer.makeMove(tile);
+        // } else {
+        //     console.log("Illegal Move!");
+        // }
 
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
@@ -182,9 +211,18 @@ const Game = (() => {
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
 
-        while (!getGameOver(gameover)) {
-            playTurn(players)
-        }
+        // while (!getGameOver(gameover)) {
+        //     playTurn(players)
+        // }
+
+        document.querySelectorAll('.tile').forEach(tile => {
+            tile.addEventListener('click', (e) => {
+                e.preventDefault();
+                let tileNum = tile.dataset.tileNumber;
+                console.log(tileNum)
+                playTurn(tileNum)
+            })
+        })
     
         // console.log(gameBoard.checkDraw());
         // gameBoard.markTile('11', 'X');
