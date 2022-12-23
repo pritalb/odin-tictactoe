@@ -167,33 +167,58 @@ const Game = (() => {
     //     updateTurn();
     // }
 
-    const playTurn = (tile) => {
-        let turn = getTurn()
-        const currentPlayer = players[turn]
+    const playTurn = (players, tile) => {
+        let turn = getTurn();
+        const currentPlayer = players[1];
+        const computerPlayer = players[2];
+
+        const computerTurn = () => {
+            console.log(`It's Computer's turn.`)
+
+            let moves = gameBoard.getAvailableTiles();
+            let computerTile = get_random(moves);
+            let isLegal = gameBoard.checkLegalMove(computerTile);
+
+            while(!isLegal) {
+                computerTile = get_random(moves);
+                isLegal = gameBoard.checkLegalMove(computerTile)
+            }
+
+            computerPlayer.makeMove(computerTile);
+        }
+
+        const hasPlayerWon = (player) => {
+            let win = gameBoard.checkWin(player.mark);
+            win && console.log(`${player.name} won!`);
+            // gameover = win | gameBoard.checkDraw();
+            setGameOver(win);
+            return win;
+        }
         // let tile = "";
 
         // if(currentPlayer.name == "Computer") {
-        //     let moves = gameBoard.getAvailableTiles()
-        //     tile = get_random(moves)
         // } else {
-        //     console.log(`It's ${currentPlayer.name}'s turn.`)
-        //     tile = prompt("Enter the id of the tile to mark.");
+        console.log(`It's ${currentPlayer.name}'s turn.`)
+            // tile = prompt("Enter the id of the tile to mark.");
         // }
-        // let isMoveLegal = gameBoard.checkLegalMove(tile)
-        // if (isMoveLegal) {
-        //     currentPlayer.makeMove(tile);
-        // } else {
-        //     console.log("Illegal Move!");
-        // }
+        let isMoveLegal = gameBoard.checkLegalMove(tile)
+        if (isMoveLegal) {
+            currentPlayer.makeMove(tile);
+        } else {
+            console.log("Illegal Move!");
+        }
+        let firstPlayerVictory = hasPlayerWon(currentPlayer);
+
+        if (!firstPlayerVictory) {
+            computerTurn();
+            hasPlayerWon(computerPlayer);
+        }
 
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
         
-        let win = gameBoard.checkWin(currentPlayer.mark);
-        win && console.log(`${currentPlayer.name} won!`)
-        // gameover = win | gameBoard.checkDraw();
-        setGameOver(win);
-        updateTurn();
+
+        // updateTurn();
     }
 
     const play = () => {
@@ -220,7 +245,7 @@ const Game = (() => {
                 e.preventDefault();
                 let tileNum = tile.dataset.tileNumber;
                 console.log(tileNum)
-                playTurn(tileNum)
+                playTurn(players, tileNum)
             })
         })
     
