@@ -243,9 +243,12 @@ const Game = (() => {
         document.querySelectorAll('.tile').forEach(tile => {
             tile.addEventListener('click', (e) => {
                 e.preventDefault();
-                let tileNum = tile.dataset.tileNumber;
-                console.log(tileNum)
-                playTurn(players, tileNum)
+                let gameover = getGameOver()
+                if (!gameover) {
+                    let tileNum = tile.dataset.tileNumber;
+                    console.log(tileNum)
+                    playTurn(players, tileNum)
+                }
             })
         })
     
