@@ -134,6 +134,10 @@ const Game = (() => {
         })
 
         document.querySelector('.game-start-btn').addEventListener('click', () => {
+            document.querySelectorAll('.tile').forEach(tile => {
+                tile.innerText = "";
+            })
+
             play();
         })
     }
@@ -206,6 +210,7 @@ const Game = (() => {
             currentPlayer.makeMove(tile);
         } else {
             console.log("Illegal Move!");
+            return;
         }
         let firstPlayerVictory = hasPlayerWon(currentPlayer);
 
