@@ -31,6 +31,22 @@ const Game = (() => {
             '20', '21', '22'
         ]
 
+        const reset = () => {
+            gameboard = [
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', '']
+            ]
+
+            availableTiles = [
+                '00', '01', '02',
+                '10', '11', '12',
+                '20', '21', '22'
+            ]
+
+            setGameOver(false);
+        }
+
         const getGameboard = () => {
             return gameboard;
         }
@@ -95,11 +111,11 @@ const Game = (() => {
 
             gameboard[row][col] = mark;
             let index = availableTiles.indexOf(tileID)
-            availableTiles.splice(index, 1);
             document.querySelector(`.tile-${tileID}`).innerText = mark;
+            availableTiles.splice(index, 1);
         }
 
-        return {getGameboard, getAvailableTiles, checkLegalMove, checkDraw, checkWin, markTile}
+        return {getGameboard, getAvailableTiles, checkLegalMove, checkDraw, checkWin, markTile, reset}
     })();
 
     const playerFactory = (mark, name) => {
@@ -138,6 +154,7 @@ const Game = (() => {
                 tile.innerText = "";
             })
 
+            gameBoard.reset();
             play();
         })
     }
