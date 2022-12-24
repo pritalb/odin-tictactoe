@@ -251,7 +251,7 @@ const Game = (() => {
     }
 
     const play = () => {
-        let player_name = prompt("Input your name");
+        let player_name = document.querySelector('.player-name-input-field').value;
         
         let player_mark = document.querySelector('.mark-selection-chosen').innerText;
         // while (!(player_mark === "X" || player_mark === "O")) {
