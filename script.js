@@ -215,6 +215,7 @@ const Game = (() => {
             setGameOver(win);
             return win;
         }
+
         // let tile = "";
 
         // if(currentPlayer.name == "Computer") {
@@ -230,8 +231,9 @@ const Game = (() => {
             return;
         }
         let firstPlayerVictory = hasPlayerWon(currentPlayer);
+        let isGamedrawn = gameBoard.checkDraw();
 
-        if (!firstPlayerVictory) {
+        if (!firstPlayerVictory && !isGamedrawn) {
             computerTurn();
             hasPlayerWon(computerPlayer);
         }
@@ -239,6 +241,11 @@ const Game = (() => {
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
         
+        if (isGamedrawn) {
+            console.log("Game Drawn!");
+            setGameOver(true);
+            return;
+        }
 
         // updateTurn();
     }
