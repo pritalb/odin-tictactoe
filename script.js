@@ -44,6 +44,7 @@ const Game = (() => {
                 '20', '21', '22'
             ]
 
+            document.querySelector('.message-container').innerText = "Click on a tile to play your turn";
             setGameOver(false);
         }
 
@@ -189,12 +190,12 @@ const Game = (() => {
     // }
 
     const playTurn = (players, tile) => {
-        let turn = getTurn();
+        // let turn = getTurn();
         const currentPlayer = players[1];
         const computerPlayer = players[2];
 
         const computerTurn = () => {
-            console.log(`It's Computer's turn.`)
+            setMessage(`It's Computer's turn.`);
 
             let moves = gameBoard.getAvailableTiles();
             let computerTile = get_random(moves);
@@ -210,24 +211,30 @@ const Game = (() => {
 
         const hasPlayerWon = (player) => {
             let win = gameBoard.checkWin(player.mark);
-            win && console.log(`${player.name} won!`);
+            win && setMessage(`${player.name} won!`);
             // gameover = win | gameBoard.checkDraw();
             setGameOver(win);
             return win;
+        }
+
+        const setMessage = (msg) => {
+            document.querySelector('.message-container').innerText = msg;
         }
 
         // let tile = "";
 
         // if(currentPlayer.name == "Computer") {
         // } else {
-        console.log(`It's ${currentPlayer.name}'s turn.`)
+        
+        // console.log(`It's ${currentPlayer.name}'s turn.`);
             // tile = prompt("Enter the id of the tile to mark.");
         // }
+        setMessage(`It's ${currentPlayer.name}'s turn.`);
         let isMoveLegal = gameBoard.checkLegalMove(tile)
         if (isMoveLegal) {
             currentPlayer.makeMove(tile);
         } else {
-            console.log("Illegal Move!");
+            setMessage("Illegal Move!");
             return;
         }
         let firstPlayerVictory = hasPlayerWon(currentPlayer);
@@ -235,14 +242,18 @@ const Game = (() => {
 
         if (!firstPlayerVictory && !isGamedrawn) {
             computerTurn();
-            hasPlayerWon(computerPlayer);
+            let computerWon = hasPlayerWon(computerPlayer);
+
+            if (!computerWon) {
+                setMessage(`It's ${currentPlayer.name}'s turn.`);
+            }
         }
 
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
         
         if (isGamedrawn) {
-            console.log("Game Drawn!");
+            setMessage("Game Drawn!");
             setGameOver(true);
             return;
         }
