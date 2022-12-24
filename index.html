@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="mark-selection">
-        Choose your mark:
+        Choose first Player's mark:
         <div>
             <button class="mark-selection-btn mark-selection-x">X</button>
             <button class="mark-selection-btn mark-selection-O">O</button>
@@ -21,8 +21,19 @@
         </div>
 
         <div>
-            Enter your name (default name is Player):
-            <input type="text" class="player-name-input-field" value="Player">
+            Enter names for first and second players respectively (default names are Player1 and Player2):
+            <input type="text" class="player1-name-input-field" value="Player1">
+            <input type="text" class="player2-name-input-field" value="Player2">
+        </div>
+
+        <div class="ai-selection-container">
+            Select Player2 type (default is AI):
+            <button class="ai-game-btn">AI</button>
+            <button class="human-game-btn">Human</button>
+
+            <div>
+                You've seleted <span class="ai-selection-prompt">AI</span>
+            </div>
         </div>
 
         <button class="game-start-btn"> New Game </button>

@@ -1,6 +1,7 @@
 const Game = (() => {
     let turn = 1;
     let gameover = false;
+    let playingAgainstAI = true;
 
     const getTurn = () => {
         return turn;
@@ -16,6 +17,18 @@ const Game = (() => {
 
     const setGameOver = (win) => {
         gameover = win || gameBoard.checkDraw();
+    }
+
+    const setPlayAgainstAI = () => {
+        playingAgainstAI = true;
+    }
+
+    const setPlayAgainstHuman = () => {
+        playingAgainstAI = false;
+    }
+
+    const getPlayingAgainstAI = () => {
+        return playingAgainstAI;
     }
 
     const gameBoard = (() => {
@@ -150,6 +163,15 @@ const Game = (() => {
             })
         })
 
+        document.querySelector('.ai-game-btn').addEventListener('click', () => {
+            document.querySelector('.ai-selection-prompt').innerText = "AI";
+            setPlayAgainstAI();
+        })
+        document.querySelector('.human-game-btn').addEventListener('click', () => {
+            document.querySelector('.ai-selection-prompt').innerText = "Human";
+            setPlayAgainstHuman();
+        })
+
         document.querySelector('.game-start-btn').addEventListener('click', () => {
             document.querySelectorAll('.tile').forEach(tile => {
                 tile.innerText = "";
@@ -160,36 +182,82 @@ const Game = (() => {
         })
     }
 
-    // const playTurn = (players) => {
-    //     let turn = getTurn()
-    //     const currentPlayer = players[turn]
-    //     let tile = "";
+    const setMessage = (msg) => {
+        document.querySelector('.message-container').innerText = msg;
+    }
 
-    //     if(currentPlayer.name == "Computer") {
-    //         let moves = gameBoard.getAvailableTiles()
-    //         tile = get_random(moves)
-    //     } else {
-    //         console.log(`It's ${currentPlayer.name}'s turn.`)
-    //         tile = prompt("Enter the id of the tile to mark.");
-    //     }
-    //     let isMoveLegal = gameBoard.checkLegalMove(tile)
-    //     if (isMoveLegal) {
-    //         currentPlayer.makeMove(tile);
-    //     } else {
-    //         console.log("Illegal Move!");
-    //     }
+    const hasPlayerWon = (player) => {
+        let win = gameBoard.checkWin(player.mark);
+        win && setMessage(`${player.name} won!`);
+        // gameover = win | gameBoard.checkDraw();
+        setGameOver(win);
+        return win;
+    }
 
-    //     console.log(gameBoard.getGameboard());
-    //     console.log(gameBoard.getAvailableTiles());
+    const playTurnAgainstHuman = (players, tile) => {
+        let turn = getTurn()
+        const currentPlayer = players[turn]
+        // let tile = "";
+
+        setMessage(`It's ${currentPlayer.name}'s turn.`);
+        let isMoveLegal = gameBoard.checkLegalMove(tile)
+        if (isMoveLegal) {
+            currentPlayer.makeMove(tile);
+        } else {
+            setMessage("Illegal Move!");
+            return;
+        }
+        let playerVictory = hasPlayerWon(currentPlayer);
+        let isGamedrawn = gameBoard.checkDraw();
+
+        // let computerPlayerVictory = false;
+        // if (!firstPlayerVictory && !isGamedrawn) {
+        //     computerTurn();
+        //     computerPlayerVictory = hasPlayerWon(computerPlayer);
+
+        //     if (!computerPlayerVictory) {
+        //         setMessage(`It's ${currentPlayer.name}'s turn.`);
+        //     }
+        // }
+
+        console.log(gameBoard.getGameboard());
+        console.log(gameBoard.getAvailableTiles());
         
-    //     let win = gameBoard.checkWin(currentPlayer.mark);
-    //     win && console.log(`${currentPlayer.name} won!`)
-    //     // gameover = win | gameBoard.checkDraw();
-    //     setGameOver(win);
-    //     updateTurn();
-    // }
+        if (isGamedrawn && !playerVictory) {
+            setMessage("Game Drawn!");
+            setGameOver(true);
+            return;
+        }
 
-    const playTurn = (players, tile) => {
+        // if(currentPlayer.name == "Computer") {
+        //     let moves = gameBoard.getAvailableTiles()
+        //     tile = get_random(moves)
+        // } else {
+        //     console.log(`It's ${currentPlayer.name}'s turn.`)
+        //     tile = prompt("Enter the id of the tile to mark.");
+        // }
+        // let isMoveLegal = gameBoard.checkLegalMove(tile)
+        // if (isMoveLegal) {
+        //     currentPlayer.makeMove(tile);
+        // } else {
+        //     console.log("Illegal Move!");
+        // }
+
+        // console.log(gameBoard.getGameboard());
+        // console.log(gameBoard.getAvailableTiles());
+        
+        // let win = gameBoard.checkWin(currentPlayer.mark);
+        // win && console.log(`${currentPlayer.name} won!`)
+        // // gameover = win | gameBoard.checkDraw();
+        // setGameOver(win);
+        updateTurn();
+
+        if (!(isGamedrawn || playerVictory)) {
+            setMessage(`It's ${players[getTurn()].name}'s turn.`);
+        }
+    }
+
+    const playTurnAgainstAI = (players, tile) => {
         // let turn = getTurn();
         const currentPlayer = players[1];
         const computerPlayer = players[2];
@@ -207,18 +275,6 @@ const Game = (() => {
             }
 
             computerPlayer.makeMove(computerTile);
-        }
-
-        const hasPlayerWon = (player) => {
-            let win = gameBoard.checkWin(player.mark);
-            win && setMessage(`${player.name} won!`);
-            // gameover = win | gameBoard.checkDraw();
-            setGameOver(win);
-            return win;
-        }
-
-        const setMessage = (msg) => {
-            document.querySelector('.message-container').innerText = msg;
         }
 
         // let tile = "";
@@ -263,15 +319,16 @@ const Game = (() => {
     }
 
     const play = () => {
-        let player_name = document.querySelector('.player-name-input-field').value;
+        let player1_name = document.querySelector('.player1-name-input-field').value;
+        let player2_name = document.querySelector('.player2-name-input-field').value;
         
         let player_mark = document.querySelector('.mark-selection-chosen').innerText;
         // while (!(player_mark === "X" || player_mark === "O")) {
         //     player_mark = prompt("choose a mark: X or O");
         //     console.log(player_mark);
         // }
-        const player1 = playerFactory(player_mark, player_name);
-        const player2 = playerFactory((player_mark == "X" ? "O" : "X"), "Computer");
+        const player1 = playerFactory(player_mark, player1_name);
+        const player2 = playerFactory((player_mark == "X" ? "O" : "X"), player2_name);
         const players = playersFactory(player1, player2);
 
         console.log(gameBoard.getGameboard());
@@ -287,8 +344,12 @@ const Game = (() => {
                 let gameover = getGameOver()
                 if (!gameover) {
                     let tileNum = tile.dataset.tileNumber;
-                    console.log(tileNum)
-                    playTurn(players, tileNum)
+                    console.log(tileNum);
+                    if (getPlayingAgainstAI()) {
+                        playTurnAgainstAI(players, tileNum);
+                    } else {
+                        playTurnAgainstHuman(players, tileNum);
+                    }
                 }
             })
         })
