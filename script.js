@@ -195,7 +195,7 @@ const Game = (() => {
         const computerPlayer = players[2];
 
         const computerTurn = () => {
-            setMessage(`It's Computer's turn.`);
+            setMessage(`It's ${computerPlayer.name} turn.`);
 
             let moves = gameBoard.getAvailableTiles();
             let computerTile = get_random(moves);
@@ -240,11 +240,12 @@ const Game = (() => {
         let firstPlayerVictory = hasPlayerWon(currentPlayer);
         let isGamedrawn = gameBoard.checkDraw();
 
+        let computerPlayerVictory = false;
         if (!firstPlayerVictory && !isGamedrawn) {
             computerTurn();
-            let computerWon = hasPlayerWon(computerPlayer);
+            computerPlayerVictory = hasPlayerWon(computerPlayer);
 
-            if (!computerWon) {
+            if (!computerPlayerVictory) {
                 setMessage(`It's ${currentPlayer.name}'s turn.`);
             }
         }
@@ -252,7 +253,7 @@ const Game = (() => {
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
         
-        if (isGamedrawn) {
+        if (isGamedrawn && !firstPlayerVictory && !computerPlayerVictory) {
             setMessage("Game Drawn!");
             setGameOver(true);
             return;
