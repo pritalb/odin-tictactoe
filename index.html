@@ -10,49 +10,59 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="mark-selection">
-        Choose first Player's mark:
-        <div>
-            <button class="mark-selection-btn mark-selection-x">X</button>
-            <button class="mark-selection-btn mark-selection-O">O</button>
+    <div class="main">
+        <div class="sidebar">
+            <h1>Tic Tac Toe</h1>
+    
+            <div class="form">
+                <div>
+                    Choose first Player's mark:
+                    <div>
+                        <button class="mark-selection-btn mark-selection-x">X</button>
+                        <button class="mark-selection-btn mark-selection-O">O</button>
+                    </div>
+                    <div>
+                        You've selected <span class="mark-selection-chosen">X</span> (default choice is X)
+                    </div>
+                </div>
+        
+                <div>
+                    Enter names for first and second players respectively (default names are Player1 and Player2):
+                    <input type="text" class="player1-name-input-field" value="Player1">
+                    <input type="text" class="player2-name-input-field" value="Player2">
+                </div>
+        
+                <div class="ai-selection-container">
+                    Select Player2 type (default is AI):
+                    <button class="ai-game-btn">AI</button>
+                    <button class="human-game-btn">Human</button>
+        
+                    <div>
+                        You've seleted <span class="ai-selection-prompt">AI</span>
+                    </div>
+                </div>
+            </div>
+    
+            <button class="game-start-btn"> New Game </button>
+    
         </div>
-        <div>
-            You've selected <span class="mark-selection-chosen">X</span> (default choice is X)
-        </div>
-
-        <div>
-            Enter names for first and second players respectively (default names are Player1 and Player2):
-            <input type="text" class="player1-name-input-field" value="Player1">
-            <input type="text" class="player2-name-input-field" value="Player2">
-        </div>
-
-        <div class="ai-selection-container">
-            Select Player2 type (default is AI):
-            <button class="ai-game-btn">AI</button>
-            <button class="human-game-btn">Human</button>
-
-            <div>
-                You've seleted <span class="ai-selection-prompt">AI</span>
+        
+        <div class="play-area">
+            <div class="message-container">Click on a tile to play</div>
+            <div class="game-board">
+                    <div class="tile tile-00" data-tile-number="00"></div>
+                    <div class="tile tile-01" data-tile-number="01"></div>
+                    <div class="tile tile-02" data-tile-number="02"></div>
+        
+                    <div class="tile tile-10" data-tile-number="10"></div>
+                    <div class="tile tile-11" data-tile-number="11"></div>
+                    <div class="tile tile-12" data-tile-number="12"></div>
+        
+                    <div class="tile tile-20" data-tile-number="20"></div>
+                    <div class="tile tile-21" data-tile-number="21"></div>
+                    <div class="tile tile-22" data-tile-number="22"></div>
             </div>
         </div>
-
-        <button class="game-start-btn"> New Game </button>
-
-        <div class="message-container"></div>
-    </div>
-
-    <div class="game-board">
-            <div class="tile tile-00" data-tile-number="00"></div>
-            <div class="tile tile-01" data-tile-number="01"></div>
-            <div class="tile tile-02" data-tile-number="02"></div>
-
-            <div class="tile tile-10" data-tile-number="10"></div>
-            <div class="tile tile-11" data-tile-number="11"></div>
-            <div class="tile tile-12" data-tile-number="12"></div>
-
-            <div class="tile tile-20" data-tile-number="20"></div>
-            <div class="tile tile-21" data-tile-number="21"></div>
-            <div class="tile tile-22" data-tile-number="22"></div>
     </div>
 </body>
 </html>
