@@ -195,12 +195,15 @@ const Game = (() => {
     }
 
     const playTurnAgainstHuman = (players, tile) => {
+        console.log('playing turn.....');
+
         let turn = getTurn()
         const currentPlayer = players[turn]
         // let tile = "";
 
         setMessage(`It's ${currentPlayer.name}'s turn.`);
         let isMoveLegal = gameBoard.checkLegalMove(tile)
+        console.log(isMoveLegal);
         if (isMoveLegal) {
             currentPlayer.makeMove(tile);
         } else {
@@ -341,6 +344,7 @@ const Game = (() => {
         document.querySelectorAll('.tile').forEach(tile => {
             tile.addEventListener('click', (e) => {
                 e.preventDefault();
+                
                 let gameover = getGameOver()
                 if (!gameover) {
                     let tileNum = tile.dataset.tileNumber;
