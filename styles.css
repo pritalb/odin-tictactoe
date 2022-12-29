@@ -31,6 +31,16 @@ body {
     color: var(--main-color);
 }
 
+.play-area {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    font-size: 2rem;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+}
+
 .game-board {
     display: grid;
     width: calc(3 * var(--tile-length));
