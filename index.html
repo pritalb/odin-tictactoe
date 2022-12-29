@@ -12,11 +12,13 @@
 <body>
     <div class="main">
         <div class="sidebar">
-            <h1>Tic Tac Toe</h1>
+            <h1 class="title">Tic Tac Toe</h1>
     
             <div class="form">
                 <div>
-                    Choose first Player's mark:
+                    <div>
+                        Choose first Player's mark:
+                    </div>
                     <div>
                         <button class="mark-selection-btn mark-selection-x">X</button>
                         <button class="mark-selection-btn mark-selection-O">O</button>
@@ -27,19 +29,36 @@
                 </div>
         
                 <div>
-                    Enter names for first and second players respectively (default names are Player1 and Player2):
-                    <input type="text" class="player1-name-input-field" value="Player1">
-                    <input type="text" class="player2-name-input-field" value="Player2">
+                    <div>
+                        Enter names for first and second players respectively
+                    </div>
+
+                    <div>
+                        (default names are Player1 and Player2):
+                    </div>
+
+                    <div>
+                        <label for="player1-name-field""> First Player's name: </label>
+                        <input type="text" class="player1-name-input-field" name="player1-name-field" value="Player1">
+                    </div>
+
+                    <div>
+                        <label for="player2-name-field"">Second Player's name:</label>
+                        <input type="text" class="player2-name-input-field" name="player2-name-field" value="Player2">
+                    </div>
                 </div>
         
                 <div class="ai-selection-container">
-                    Select Player2 type (default is AI):
-                    <button class="ai-game-btn">AI</button>
-                    <button class="human-game-btn">Human</button>
-        
+                    Select Player2 type:
                     <div>
-                        You've seleted <span class="ai-selection-prompt">AI</span>
+                        You've seleted <span class="ai-selection-prompt">AI</span> (default is AI)
                     </div>
+
+                    <div>
+                        <button class="ai-game-btn">AI</button>
+                        <button class="human-game-btn">Human</button>
+                    </div>
+        
                 </div>
             </div>
     

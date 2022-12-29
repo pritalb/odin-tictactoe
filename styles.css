@@ -27,6 +27,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 50px;
     background-color: var(--second-color);
     color: var(--main-color);
 }
