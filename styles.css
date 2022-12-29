@@ -51,7 +51,11 @@ body {
 }
 
 .tile {
+    display: flex;
     width: var(--tile-length);
     height: var(--tile-length);
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
     background-color: var(--main-color);
 }
