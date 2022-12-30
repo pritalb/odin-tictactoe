@@ -189,7 +189,6 @@ const Game = (() => {
     const hasPlayerWon = (player) => {
         let win = gameBoard.checkWin(player.mark);
         win && setMessage(`${player.name} won!`);
-        // gameover = win | gameBoard.checkDraw();
         setGameOver(win);
         return win;
     }
@@ -199,7 +198,6 @@ const Game = (() => {
 
         let turn = getTurn()
         const currentPlayer = players[turn]
-        // let tile = "";
 
         setMessage(`It's ${currentPlayer.name}'s turn.`);
         let isMoveLegal = gameBoard.checkLegalMove(tile)
@@ -207,21 +205,10 @@ const Game = (() => {
         if (isMoveLegal) {
             currentPlayer.makeMove(tile);
         } else {
-            // setMessage("Illegal Move!");
             return;
         }
         let playerVictory = hasPlayerWon(currentPlayer);
         let isGamedrawn = gameBoard.checkDraw();
-
-        // let computerPlayerVictory = false;
-        // if (!firstPlayerVictory && !isGamedrawn) {
-        //     computerTurn();
-        //     computerPlayerVictory = hasPlayerWon(computerPlayer);
-
-        //     if (!computerPlayerVictory) {
-        //         setMessage(`It's ${currentPlayer.name}'s turn.`);
-        //     }
-        // }
 
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
@@ -232,27 +219,6 @@ const Game = (() => {
             return;
         }
 
-        // if(currentPlayer.name == "Computer") {
-        //     let moves = gameBoard.getAvailableTiles()
-        //     tile = get_random(moves)
-        // } else {
-        //     console.log(`It's ${currentPlayer.name}'s turn.`)
-        //     tile = prompt("Enter the id of the tile to mark.");
-        // }
-        // let isMoveLegal = gameBoard.checkLegalMove(tile)
-        // if (isMoveLegal) {
-        //     currentPlayer.makeMove(tile);
-        // } else {
-        //     console.log("Illegal Move!");
-        // }
-
-        // console.log(gameBoard.getGameboard());
-        // console.log(gameBoard.getAvailableTiles());
-        
-        // let win = gameBoard.checkWin(currentPlayer.mark);
-        // win && console.log(`${currentPlayer.name} won!`)
-        // // gameover = win | gameBoard.checkDraw();
-        // setGameOver(win);
         updateTurn();
 
         if (!(isGamedrawn || playerVictory)) {
@@ -261,7 +227,6 @@ const Game = (() => {
     }
 
     const playTurnAgainstAI = (players, tile) => {
-        // let turn = getTurn();
         const currentPlayer = players[1];
         const computerPlayer = players[2];
 
@@ -280,20 +245,11 @@ const Game = (() => {
             computerPlayer.makeMove(computerTile);
         }
 
-        // let tile = "";
-
-        // if(currentPlayer.name == "Computer") {
-        // } else {
-        
-        // console.log(`It's ${currentPlayer.name}'s turn.`);
-            // tile = prompt("Enter the id of the tile to mark.");
-        // }
         setMessage(`It's ${currentPlayer.name}'s turn.`);
         let isMoveLegal = gameBoard.checkLegalMove(tile)
         if (isMoveLegal) {
             currentPlayer.makeMove(tile);
         } else {
-            // setMessage("Illegal Move!");
             return;
         }
         let firstPlayerVictory = hasPlayerWon(currentPlayer);
@@ -318,7 +274,6 @@ const Game = (() => {
             return;
         }
 
-        // updateTurn();
     }
 
     const play = () => {
@@ -326,20 +281,12 @@ const Game = (() => {
         let player2_name = document.querySelector('.player2-name-input-field').value;
         
         let player_mark = document.querySelector('.mark-selection-chosen').innerText;
-        // while (!(player_mark === "X" || player_mark === "O")) {
-        //     player_mark = prompt("choose a mark: X or O");
-        //     console.log(player_mark);
-        // }
         const player1 = playerFactory(player_mark, player1_name);
         const player2 = playerFactory((player_mark == "X" ? "O" : "X"), player2_name);
         const players = playersFactory(player1, player2);
 
         console.log(gameBoard.getGameboard());
         console.log(gameBoard.getAvailableTiles());
-
-        // while (!getGameOver(gameover)) {
-        //     playTurn(players)
-        // }
 
         document.querySelectorAll('.tile').forEach(tile => {
             tile.addEventListener('click', (e) => {
@@ -357,14 +304,6 @@ const Game = (() => {
                 }
             })
         })
-    
-        // console.log(gameBoard.checkDraw());
-        // gameBoard.markTile('11', 'X');
-        // gameBoard.markTile('01', '0');
-        // gameBoard.markTile('01', 'X');
-    
-        // console.log(gameBoard.getGameboard());
-        // console.log(gameBoard.getAvailableTiles());
     }
 
     return {initialize, play};
@@ -372,6 +311,5 @@ const Game = (() => {
 
 function main() {
     Game.initialize();
-    // Game.play();
 }
 main();
