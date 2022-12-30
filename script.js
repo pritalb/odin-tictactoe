@@ -207,7 +207,7 @@ const Game = (() => {
         if (isMoveLegal) {
             currentPlayer.makeMove(tile);
         } else {
-            setMessage("Illegal Move!");
+            // setMessage("Illegal Move!");
             return;
         }
         let playerVictory = hasPlayerWon(currentPlayer);
@@ -293,7 +293,7 @@ const Game = (() => {
         if (isMoveLegal) {
             currentPlayer.makeMove(tile);
         } else {
-            setMessage("Illegal Move!");
+            // setMessage("Illegal Move!");
             return;
         }
         let firstPlayerVictory = hasPlayerWon(currentPlayer);
